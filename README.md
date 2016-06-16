@@ -1,0 +1,1 @@
+This directory contains miscellaneous MATLAB scripts that I’ve found useful for coding experiments in MATLAB. It’s written for my own personal use. Anyone is free to use it, but none of it is actively supported. 
