@@ -2,7 +2,7 @@ function writeheader(fid,header,formatstring,varargin)
 
 % function writeheader(fid,header,formatstring,varargin)
 % 
-% Writes a head for a column file.
+% Writes a header for a column file.
 % 
 % -- Example: 3-Column header  --
 % 
@@ -26,31 +26,12 @@ function writeheader(fid,header,formatstring,varargin)
 % 
 % % close file
 % fclose(fid);
-% 
-% Commented by Sam Norman-Haignere on 2015-06-24
     
 x = regexprep(formatstring,'[df]','s');
 y = regexprep(x,'\.\d','');
-fprintf(fid, y, header{:});
-if optInputs(varargin,'command')
+if isempty(fid)
     fprintf(y, header{:});
+else
+    fprintf(fid, y, header{:});
 end
-
-%
-% z = regexp(y,'\%[\-\w\.]*','match');
-% 
-% keyboard;
-% 
-% for j = 1:length(z)
-%     fprintf(fid, z{j}, header{j});
-%     if optInputs(varargin,'command')
-%         fprintf(z{j}, header{j});
-%     end
-% end
-
-% fprintf(fid,'\n');
-% if optInputs(varargin,'command')
-%     fprintf('\n');
-% end
-
 
