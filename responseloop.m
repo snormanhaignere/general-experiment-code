@@ -66,8 +66,13 @@ else
     debugstate = false;
     dsecs = [];
 end
-    
 
+if optInputs(varargin, 'absrt')
+    absrt = true;
+else
+    absrt = false;
+end
+    
 loopdelay = 0.001;
 testcode = 0;
 rt = nan;
@@ -80,7 +85,11 @@ while (GetSecs < start_time+max_rt)
         if testcode == 0
             testcode = 1;
         else
-            rt = secs-start_time;
+            if absrt
+                rt = secs;
+            else
+                rt = secs-start_time;
+            end
             rkey = response_codes(logical(keyCode(response_codes)));
             break;
         end
