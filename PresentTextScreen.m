@@ -26,5 +26,7 @@ DrawFormattedText(mainwindow, t, xposition, 'center',color,[],[],[],1.5);
 if nargin < 4
     onset_time = Screen('Flip',mainwindow);
 else
-    onset_time = Screen('Flip',mainwindow, start_time);
+    if ~isnan(start_time)
+        onset_time = Screen('Flip',mainwindow, start_time);
+    end
 end

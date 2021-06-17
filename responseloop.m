@@ -1,4 +1,4 @@
-function [rt, rkey, flipped] = responseloop(start_time,max_rt,response_codes,varargin)
+function [rt, rkey, flipped, dsecs] = responseloop(start_time,max_rt,response_codes,varargin)
 
 % [rt, rkey, flipped] = responseloop(start_time,max_rt,responsecodes,varargin)
 % 
@@ -56,17 +56,28 @@ deviceNumber = -3;
 if optInputs(varargin, 'deviceNumber')
     deviceNumber = varargin{optInputs(varargin, 'deviceNumber')+1};
 end
+
+if optInputs(varargin, 'debug')
+    debugstate = true;
+    ndsecs = 2000;
+    dsecs = zeros(ndsecs,1);
+    dsecindex = 0;
+else
+    debugstate = false;
+    dsecs = [];
+end
     
-loopdelay = 0.0005;
+
+loopdelay = 0.001;
 testcode = 0;
 rt = nan;
 rkey = nan;
 % FlushEvents('keyDown');
 while (GetSecs < start_time+max_rt)
-    WaitSecs(loopdelay);
-    [zz, secs, keyCode] = KbCheck(deviceNumber); %#ok<ASGLU>
+    % WaitSecs(loopdelay);
+    [zz, secs, keyCode, delsecs] = KbCheck(deviceNumber); %#ok<ASGLU>
     if sum(keyCode(response_codes)) == testcode
-        if testcode == 0;
+        if testcode == 0
             testcode = 1;
         else
             rt = secs-start_time;
@@ -77,5 +88,9 @@ while (GetSecs < start_time+max_rt)
     if checkflip && ~flipped && (GetSecs>fliptime)
         Screen('Flip',mainwindow);
         flipped = true;
+    end
+    if debugstate
+        dsecindex = dsecindex + 1;
+        dsecs(dsecindex) = delsecs*1000;
     end
 end
